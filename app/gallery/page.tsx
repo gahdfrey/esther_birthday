@@ -57,7 +57,7 @@ function PhotoItem({ src, index }: { src: string; index: number }) {
   return (
     <div
       ref={ref}
-      className="relative overflow-hidden rounded-2xl mb-4 cursor-pointer"
+      className="relative overflow-hidden rounded-2xl cursor-pointer"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.96)',
@@ -100,7 +100,7 @@ function VideoItem({ src, index }: { src: string; index: number }) {
   return (
     <div
       ref={ref}
-      className="relative overflow-hidden rounded-2xl mb-4"
+      className="relative overflow-hidden rounded-2xl"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.96)',
@@ -150,22 +150,10 @@ export default function GalleryPage() {
     return () => clearTimeout(t)
   }, [])
 
-  // Interleave videos into image columns for a natural mix
-  const col1: { type: 'img' | 'vid'; src: string; idx: number }[] = []
-  const col2: { type: 'img' | 'vid'; src: string; idx: number }[] = []
-  const col3: { type: 'img' | 'vid'; src: string; idx: number }[] = []
-
   const allMedia = [
     ...IMAGES.map((src) => ({ type: 'img' as const, src })),
     ...VIDEOS.map((src) => ({ type: 'vid' as const, src })),
   ]
-
-  allMedia.forEach((item, i) => {
-    const entry = { ...item, idx: i }
-    if (i % 3 === 0) col1.push(entry)
-    else if (i % 3 === 1) col2.push(entry)
-    else col3.push(entry)
-  })
 
   return (
     <div className="min-h-screen bg-white">
@@ -215,41 +203,18 @@ export default function GalleryPage() {
         </p>
       </div>
 
-      {/* Masonry grid */}
-      <div className="px-3 sm:px-6 pb-16 max-w-6xl mx-auto">
-        {/* 3-col on desktop, 2-col on mobile */}
-        <div className="hidden md:grid md:grid-cols-3 gap-4">
-          <div>
-            {col1.map((item) =>
-              item.type === 'img'
-                ? <PhotoItem key={item.src} src={item.src} index={item.idx} />
-                : <VideoItem key={item.src} src={item.src} index={item.idx} />
-            )}
+      {/* Masonry grid — CSS columns for true masonry (no white space) */}
+      <div
+        className="px-3 sm:px-6 pb-16 max-w-6xl mx-auto"
+        style={{ columnCount: 2, columnGap: '12px' }}
+      >
+        {allMedia.map((item, i) => (
+          <div key={item.src} style={{ breakInside: 'avoid', marginBottom: '12px' }}>
+            {item.type === 'img'
+              ? <PhotoItem src={item.src} index={i} />
+              : <VideoItem src={item.src} index={i} />}
           </div>
-          <div className="mt-8">
-            {col2.map((item) =>
-              item.type === 'img'
-                ? <PhotoItem key={item.src} src={item.src} index={item.idx} />
-                : <VideoItem key={item.src} src={item.src} index={item.idx} />
-            )}
-          </div>
-          <div className="mt-4">
-            {col3.map((item) =>
-              item.type === 'img'
-                ? <PhotoItem key={item.src} src={item.src} index={item.idx} />
-                : <VideoItem key={item.src} src={item.src} index={item.idx} />
-            )}
-          </div>
-        </div>
-
-        {/* 2-col on mobile */}
-        <div className="grid grid-cols-2 gap-3 md:hidden">
-          {allMedia.map((item, i) =>
-            item.type === 'img'
-              ? <PhotoItem key={item.src} src={item.src} index={i} />
-              : <VideoItem key={item.src} src={item.src} index={i} />
-          )}
-        </div>
+        ))}
       </div>
 
       {/* Footer */}

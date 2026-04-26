@@ -73,7 +73,7 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (password.toLowerCase().trim() === 'let me pass') {
+    if (password.toLowerCase().trim() === 'Yellow') {
       setSuccess(true)
       setErrorMsg('')
       setTimeout(() => router.push('/birthday'), 1400)
