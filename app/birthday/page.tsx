@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 
 
@@ -22,12 +23,12 @@ const FLOATING_PETALS = Array.from({ length: 12 }, (_, i) => ({
 }))
 
 const IMAGES = [
-  { id: 1, gradient: 'linear-gradient(135deg, #CC5500 0%, #E8712A 50%, #FFB085 100%)', icon: '🌹', label: 'Our First Memory', delay: '0s' },
-  { id: 2, gradient: 'linear-gradient(135deg, #9A3F00 0%, #CC5500 50%, #E8712A 100%)', icon: '🌙', label: 'Moonlit Nights', delay: '0.15s' },
-  { id: 3, gradient: 'linear-gradient(135deg, #E8712A 0%, #FFB085 50%, #CC5500 100%)', icon: '🌅', label: 'Golden Mornings', delay: '0.3s' },
-  { id: 4, gradient: 'linear-gradient(135deg, #CC5500 0%, #D46A00 50%, #9A3F00 100%)', icon: '🌊', label: 'Adventures Together', delay: '0.45s' },
-  { id: 5, gradient: 'linear-gradient(135deg, #FFB085 0%, #E8712A 50%, #CC5500 100%)', icon: '🎂', label: 'Celebrations', delay: '0.6s' },
-  { id: 6, gradient: 'linear-gradient(135deg, #9A3F00 0%, #E8712A 50%, #FFB085 100%)', icon: '💝', label: 'Always & Forever', delay: '0.75s' },
+  { id: 1, src: '/WhatsApp Image 2026-04-26 at 09.20.46.jpeg', delay: '0s' },
+  { id: 2, src: '/WhatsApp Image 2026-04-26 at 09.20.47.jpeg', delay: '0.15s' },
+  { id: 3, src: '/WhatsApp Image 2026-04-26 at 09.20.58.jpeg', delay: '0.3s' },
+  { id: 4, src: '/WhatsApp Image 2026-04-26 at 09.20.27.jpeg', delay: '0.45s' },
+  { id: 5, src: '/WhatsApp Image 2026-04-26 at 09.20.32.jpeg', delay: '0.6s' },
+  { id: 6, src: '/WhatsApp Image 2026-04-26 at 09.20.33.jpeg', delay: '0.75s' },
 ]
 
 function ConfettiPiece({ left, delay, duration, color, size, shape }: {
@@ -74,9 +75,7 @@ function useScrollReveal() {
   return { ref, visible }
 }
 
-function ImageCard({ gradient, icon, label, delay }: {
-  gradient: string; icon: string; label: string; delay: string
-}) {
+function ImageCard({ src, delay }: { src: string; delay: string }) {
   const { ref, visible } = useScrollReveal()
   const [hovered, setHovered] = useState(false)
 
@@ -86,7 +85,6 @@ function ImageCard({ gradient, icon, label, delay }: {
       className="relative rounded-3xl overflow-hidden cursor-pointer"
       style={{
         aspectRatio: '4/5',
-        background: gradient,
         opacity: visible ? 1 : 0,
         transform: visible ? 'scale(1) translateY(0)' : 'scale(0.85) translateY(30px)',
         transition: `opacity 0.7s ease ${delay}, transform 0.7s cubic-bezier(0.34,1.56,0.64,1) ${delay}`,
@@ -97,30 +95,15 @@ function ImageCard({ gradient, icon, label, delay }: {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div
-        className="absolute inset-0 transition-opacity duration-300"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 50%, rgba(255,255,255,0.06) 100%)',
-          opacity: hovered ? 1 : 0.5,
-        }}
+      <img
+        src={src}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ transform: hovered ? 'scale(1.06)' : 'scale(1)', transition: 'transform 0.5s ease' }}
       />
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-3"
-        style={{ transform: hovered ? 'scale(1.1)' : 'scale(1)', transition: 'transform 0.4s ease' }}
-      >
-        <span className="text-6xl" style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.25))' }}>
-          {icon}
-        </span>
-        <span
-          className="text-white font-semibold text-sm px-4 text-center"
-          style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)', letterSpacing: '0.05em' }}
-        >
-          {label}
-        </span>
-      </div>
-      <div
-        className="absolute bottom-0 left-0 right-0 h-1/3"
-        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.25), transparent)' }}
+        className="absolute inset-0 transition-opacity duration-300"
+        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.18), transparent)', opacity: hovered ? 1 : 0.5 }}
       />
       {hovered && (
         <div className="absolute top-3 right-3 text-xl animate-heartbeat">🧡</div>
@@ -130,6 +113,7 @@ function ImageCard({ gradient, icon, label, delay }: {
 }
 
 export default function BirthdayPage() {
+  const router = useRouter()
   const { ref: msgRef, visible: msgVisible } = useScrollReveal()
   const { ref: imgRef, visible: imgVisible } = useScrollReveal()
   const [heroLoaded, setHeroLoaded] = useState(false)
@@ -472,7 +456,31 @@ export default function BirthdayPage() {
 
           {/* Image grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {IMAGES.map((img) => <ImageCard key={img.id} {...img} />)}
+            {IMAGES.map((img) => <ImageCard key={img.id} src={img.src} delay={img.delay} />)}
+          </div>
+
+          {/* Gallery button */}
+          <div className="flex justify-center mt-10">
+            <button
+              onClick={() => router.push('/gallery')}
+              className="rounded-2xl px-8 py-4 font-bold text-base tracking-wide text-white"
+              style={{
+                background: 'linear-gradient(135deg, #CC5500, #E8712A, #CC5500)',
+                backgroundSize: '200% 200%',
+                boxShadow: '0 8px 28px rgba(204,85,0,0.3)',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-3px) scale(1.03)'
+                ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 16px 40px rgba(204,85,0,0.4)'
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLButtonElement).style.transform = ''
+                ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 28px rgba(204,85,0,0.3)'
+              }}
+            >
+              Click to explore gallery
+            </button>
           </div>
         </div>
       </section>
