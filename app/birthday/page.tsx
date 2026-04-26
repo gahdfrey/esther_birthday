@@ -5,15 +5,17 @@ import { useRouter } from 'next/navigation'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 
 
-const CONFETTI_PIECES = Array.from({ length: 30 }, (_, i) => ({
-  id: i,
-  left: `${Math.random() * 100}%`,
-  delay: `${Math.random() * 6}s`,
-  duration: `${4 + Math.random() * 5}s`,
-  color: ['#CC5500', '#E8712A', '#9A3F00', '#FFB085', '#FF8C42', '#FFF0E8', '#D46A00', '#F0A060'][i % 8],
-  size: 8 + Math.random() * 10,
-  shape: i % 3,
-}))
+function makeConfetti() {
+  return Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 6}s`,
+    duration: `${4 + Math.random() * 5}s`,
+    color: ['#CC5500', '#E8712A', '#9A3F00', '#FFB085', '#FF8C42', '#FFF0E8', '#D46A00', '#F0A060'][i % 8],
+    size: 8 + Math.random() * 10,
+    shape: i % 3,
+  }))
+}
 
 const FLOATING_PETALS = Array.from({ length: 12 }, (_, i) => ({
   id: i,
@@ -26,9 +28,9 @@ const IMAGES = [
   { id: 1, src: '/WhatsApp Image 2026-04-26 at 09.20.46.jpeg', delay: '0s' },
   { id: 2, src: '/WhatsApp Image 2026-04-26 at 09.20.47.jpeg', delay: '0.15s' },
   { id: 3, src: '/WhatsApp Image 2026-04-26 at 09.20.58.jpeg', delay: '0.3s' },
-  { id: 4, src: '/WhatsApp Image 2026-04-26 at 09.20.27.jpeg', delay: '0.45s' },
-  { id: 5, src: '/WhatsApp Image 2026-04-26 at 09.20.32.jpeg', delay: '0.6s' },
-  { id: 6, src: '/WhatsApp Image 2026-04-26 at 09.20.33.jpeg', delay: '0.75s' },
+  { id: 4, src: '/Birthday shoot 4.png', delay: '0.45s' },
+  { id: 5, src: '/Birthday shoot 8.png', delay: '0.6s' },
+  { id: 6, src: '/WhatsApp Image 2026-04-26 at 10.51.00.jpeg', delay: '0.75s' },
 ]
 
 function ConfettiPiece({ left, delay, duration, color, size, shape }: {
@@ -117,6 +119,7 @@ export default function BirthdayPage() {
   const { ref: msgRef, visible: msgVisible } = useScrollReveal()
   const { ref: imgRef, visible: imgVisible } = useScrollReveal()
   const [heroLoaded, setHeroLoaded] = useState(false)
+  const [confetti] = useState<ReturnType<typeof makeConfetti>>(makeConfetti)
 
   useEffect(() => {
     const t = setTimeout(() => setHeroLoaded(true), 100)
@@ -163,7 +166,7 @@ export default function BirthdayPage() {
 
         {/* Confetti */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {CONFETTI_PIECES.map((p) => <ConfettiPiece key={p.id} {...p} />)}
+          {confetti.map((p) => <ConfettiPiece key={p.id} {...p} />)}
         </div>
 
         {/* Floating petals */}

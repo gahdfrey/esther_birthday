@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation'
 
 const IMAGES = [
   '/WhatsApp Image 2026-04-26 at 09.20.46.jpeg',
+  '/Birthday shoot 4.png',
+  '/Birthday shoot 8.png',
+  '/WhatsApp Image 2026-04-26 at 10.51.00.jpeg',
+  '/WhatsApp Image 2026-04-26 at 10.51.56.jpeg',
   '/WhatsApp Image 2026-04-26 at 09.20.46 (1).jpeg',
   '/WhatsApp Image 2026-04-26 at 09.20.46 (2).jpeg',
   '/WhatsApp Image 2026-04-26 at 09.20.46 (3).jpeg',
