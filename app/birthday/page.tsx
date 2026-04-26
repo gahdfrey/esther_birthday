@@ -212,7 +212,7 @@ export default function BirthdayPage() {
             <h1
               className="font-bold leading-tight mt-2"
               style={{
-                fontSize: 'clamp(3.5rem, 10vw, 7.5rem)',
+                fontSize: 'clamp(1.5rem, 10vw, 2.5rem)',
                 fontFamily: 'Georgia, "Times New Roman", serif',
                 letterSpacing: '-0.02em',
               }}

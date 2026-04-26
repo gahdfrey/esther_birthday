@@ -45,7 +45,7 @@ function useScrollReveal() {
     if (!el) return
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true) },
-      { threshold: 0.08 }
+      { threshold: 0.05 }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -56,6 +56,7 @@ function useScrollReveal() {
 function PhotoItem({ src, index }: { src: string; index: number }) {
   const { ref, visible } = useScrollReveal()
   const [hovered, setHovered] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
   const delay = `${(index % 6) * 0.08}s`
 
   return (
@@ -69,6 +70,7 @@ function PhotoItem({ src, index }: { src: string; index: number }) {
         boxShadow: hovered
           ? '0 20px 48px rgba(204,85,0,0.3)'
           : '0 4px 16px rgba(0,0,0,0.1)',
+        background: '#f0ddd0',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -76,10 +78,14 @@ function PhotoItem({ src, index }: { src: string; index: number }) {
       <img
         src={src}
         alt=""
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setImgLoaded(true)}
         className="w-full h-auto block"
         style={{
+          opacity: imgLoaded ? 1 : 0,
+          transition: 'opacity 0.4s ease, transform 0.5s ease',
           transform: hovered ? 'scale(1.04)' : 'scale(1)',
-          transition: 'transform 0.5s ease',
         }}
       />
       <div
@@ -159,6 +165,10 @@ export default function GalleryPage() {
     ...VIDEOS.map((src) => ({ type: 'vid' as const, src })),
   ]
 
+  // Split into two fixed columns by index — items never reorder as images load
+  const colA = allMedia.filter((_, i) => i % 2 === 0)
+  const colB = allMedia.filter((_, i) => i % 2 === 1)
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -207,18 +217,26 @@ export default function GalleryPage() {
         </p>
       </div>
 
-      {/* Masonry grid — CSS columns for true masonry (no white space) */}
-      <div
-        className="px-3 sm:px-6 pb-16 max-w-6xl mx-auto"
-        style={{ columnCount: 2, columnGap: '12px' }}
-      >
-        {allMedia.map((item, i) => (
-          <div key={item.src} style={{ breakInside: 'avoid', marginBottom: '12px' }}>
-            {item.type === 'img'
-              ? <PhotoItem src={item.src} index={i} />
-              : <VideoItem src={item.src} index={i} />}
-          </div>
-        ))}
+      {/* Two fixed flex columns — items never reorder as images load */}
+      <div className="px-3 sm:px-6 pb-16 max-w-6xl mx-auto flex gap-3">
+        <div className="flex flex-col gap-3 flex-1">
+          {colA.map((item, i) => (
+            <div key={item.src}>
+              {item.type === 'img'
+                ? <PhotoItem src={item.src} index={i * 2} />
+                : <VideoItem src={item.src} index={i * 2} />}
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col gap-3 flex-1">
+          {colB.map((item, i) => (
+            <div key={item.src}>
+              {item.type === 'img'
+                ? <PhotoItem src={item.src} index={i * 2 + 1} />
+                : <VideoItem src={item.src} index={i * 2 + 1} />}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Footer */}
