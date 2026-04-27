@@ -321,10 +321,11 @@ export default function BirthdayPage() {
                   transition: 'opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s',
                 }}
               >
-                My dearest{' '}
-                <span className="font-semibold orange-gradient-text">Esther</span>, on this very special day,
-                I want you to know just how extraordinary you truly are. You came into this world and
-                made it infinitely brighter, warmer, and more beautiful simply by being you.
+               Happy birthday to 
+
+                <span className="font-semibold orange-gradient-text"> my Queen!</span>, Nke m kee kwanu? Nwanyi Chukwu kere ubochi uka, inokwa ofuma? Counselor m! Obike m! Obi di ya!
+On this very special day of yours that comes around every year, I just want to remind you that you’re forever my baby. So, never fret about the new age you’re turning; instead, let’s raise a glass to it! 🥂
+
               </p>
 
               <p
@@ -335,9 +336,9 @@ export default function BirthdayPage() {
                   transition: 'opacity 0.8s ease 0.6s, transform 0.8s ease 0.6s',
                 }}
               >
-                Every laugh you share is a gift 🎁, every smile a ray of sunshine ☀️, and every moment
-                spent with you is a treasure I hold close to my heart. You are the kind of person who
-                makes the whole room glow — effortlessly, naturally, perfectly.
+Here’s a little something to toast to your many lovely years on God’s green earth so far. To your wins, may they outweigh your losses 100:1. 
+May your laughs be crowned with tears of joy and your smile be as warm as the summer sun. May your joy know no bounds, your labors be richly rewarded, and your dreams stay big and bold.
+
               </p>
 
               <p
@@ -348,13 +349,12 @@ export default function BirthdayPage() {
                   transition: 'opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s',
                 }}
               >
-                Today is your day,{' '}
-                <span className="font-semibold orange-gradient-text">baby</span>. A day the
-                stars aligned and the universe decided the world needed someone as magical as you. May
-                this birthday shower you with all the love, joy, and magic you deserve — because you
-                deserve absolutely everything 💫
+          
+                <span className="font-semibold orange-gradient-text">I love you so much</span> and I cherish you so deeply. Your happiness is priceless to me. Loving you is an honor and a treat that I’m blessed with, and I long to spend many more birthdays with you.
+
               </p>
 
+                
               {/* Accent line */}
               <div
                 className="flex items-center gap-4 py-2"
@@ -375,7 +375,11 @@ export default function BirthdayPage() {
                   transition: 'opacity 0.8s ease 1s',
                 }}
               >
-                You dey craze me every single day 🧡
+                I love you, my Queen.
+                
+                <br />
+                Yours in love,
+                <br /> Frederick.
               </p>
             </div>
 
